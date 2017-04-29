@@ -72,6 +72,18 @@ int main() {
     namedWindow("output", CV_WINDOW_NORMAL);
     imshow("output", output);
 
+    // try to find homography
+    vector<Point2f> queryAsKeyPoints1, trainAsKeyPoints2;
+    for(vector<DMatch>::iterator i = filteredMatches.begin(); i < filteredMatches.end(); ++i){
+        cout << "At Query: " << KeyPoints1.at(i->queryIdx).pt << "At train: " << KeyPoints2.at(i->trainIdx).pt << endl;
+        // we got query from feature1 i.e from keypoints1 and train from feature2 i.e from keypoints2
+        // thats why populating accordingly
+        queryAsKeyPoints1.push_back(KeyPoints1.at(i->queryIdx).pt);
+        trainAsKeyPoints2.push_back(KeyPoints2.at(i->trainIdx).pt);
+    }
+    Mat homography = findHomography(queryAsKeyPoints1, trainAsKeyPoints2, RANSAC);
+
+    cout << homography;
     waitKey(0);
 }
 
@@ -93,12 +105,12 @@ void showMatchesData(vector<DMatch> &filteredMatches, vector<KeyPoint> &query, v
 void filterMatchesByDistance(vector<DMatch> originalMatches, vector<DMatch> &filteredMatches,
                              float maxDistanceThreshold, float minDistanceThreshold){
     // filter the matches according to some threshold value
-    cout << "max: " << maxDistanceThreshold << "min: " << minDistanceThreshold << endl;
+//    cout << "max: " << maxDistanceThreshold << "min: " << minDistanceThreshold << endl;
     for (vector<DMatch>::iterator i = originalMatches.begin(); i < originalMatches.end(); ++i) {
-        cout << "from filter.. distance: " << i->distance << endl;
+//        cout << "from filter.. distance: " << i->distance << endl;
         if(i->distance > maxDistanceThreshold || i->distance < minDistanceThreshold ){
             filteredMatches.push_back((*i));
-            cout << "from filter if.. distance: " << i->distance << endl;
+//            cout << "from filter if.. distance: " << i->distance << endl;
         }
     }
 }
