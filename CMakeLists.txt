@@ -8,7 +8,10 @@ set (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}
 find_package (OpenCV 3.2.0 EXACT REQUIRED)
 
 set(SOURCE_FILES main.cpp)
+set(HOMOGRAPHY homography.cpp)
+
 add_executable(sift_test ${SOURCE_FILES})
+add_executable(homography ${HOMOGRAPHY})
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 
