@@ -9,6 +9,12 @@ using namespace std;
 using namespace cv;
 using namespace cv::xfeatures2d;
 
+
+void listKeypoints(vector<KeyPoint> keypoints);
+
+void displayImageKeypoints(Mat &image, vector<KeyPoint> &keypoints, string windowName = "Keypoints");
+
+
 int main() {
     cout << "Program started ..." << std::endl;
     Mat img1 = imread("../me1.jpg", IMREAD_GRAYSCALE);
@@ -22,6 +28,9 @@ int main() {
     vector<KeyPoint> KeyPoints1, KeyPoints2;
     f2d->detect(img1, KeyPoints1);
     f2d->detect(img2, KeyPoints2);
+    listKeypoints(KeyPoints1);
+    displayImageKeypoints(img1, KeyPoints1, "Keypoints 1");
+    displayImageKeypoints(img2, KeyPoints2, "Keypoints 2");
 
     cout << "Getting features..." << endl;
     // step 2: calculate descriptors (feature vectors)
@@ -38,7 +47,7 @@ int main() {
     // step 3: Matching features(descriptors) using BFMatcher
     BFMatcher matcher;
     vector<DMatch> matches;
-    Mat output;
+    Mat output, outputKeypoint;
     matcher.match(features1, features2, matches);
 
     // step 4: showing the matches in window
@@ -48,3 +57,20 @@ int main() {
 
     waitKey(0);
 }
+
+
+void listKeypoints(vector<KeyPoint> keypoints) {
+    unsigned long size = keypoints.size();
+    for(unsigned long i=0; i<size; i++){
+        KeyPoint kp = keypoints.at(i);
+        cout << "Point is:" << kp.pt << endl;
+    }
+}
+
+void displayImageKeypoints(Mat &image, vector<KeyPoint> &keypoints, string windowName) {
+    Mat output;
+    drawKeypoints(image, keypoints, output);
+    namedWindow(windowName, CV_WINDOW_NORMAL);
+    imshow(windowName, output);
+}
+
