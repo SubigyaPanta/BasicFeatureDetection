@@ -17,5 +17,8 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 target_include_directories (sift_test SYSTEM PUBLIC
         ${OpenCV_INCLUDE_DIRS})
+target_include_directories (homography SYSTEM PUBLIC
+        ${OpenCV_INCLUDE_DIRS})
 
 target_link_libraries(sift_test ${OpenCV_LIBS})
+target_link_libraries(homography ${OpenCV_LIBS})
