@@ -8,6 +8,8 @@
 #include "opencv2/features2d.hpp"
 #include <opencv2/xfeatures2d/nonfree.hpp>
 
+#include "Camera.h"
+
 using namespace std;
 using namespace cv;
 using namespace cv::xfeatures2d;
@@ -38,7 +40,11 @@ int main(){
     SVD::compute(fundamental, W, U, Vt);
     cout << "W: " << W << " U: " << U << " vt: " << Vt << endl;
 
-//    Mat essential = findEssentialMat(firstPoints, secondPoints)
+    Camera camera("../out_camera_data.xml");
+    cout << "camera matrix: " << camera.getK() << endl;
+
+    Mat essential = findEssentialMat(firstPoints, secondPoints, camera.getK());
+    cout << "essential matrix: " << essential << endl;
     return 0;
 }
 
