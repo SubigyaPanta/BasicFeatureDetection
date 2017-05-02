@@ -11,7 +11,7 @@ set(SOURCE_FILES main.cpp)
 set(HOMOGRAPHY homography.cpp)
 
 add_executable(sift_test ${SOURCE_FILES})
-add_executable(homography ${HOMOGRAPHY})
+add_executable(homography ${HOMOGRAPHY} ${CMAKE_CURRENT_SOURCE_DIR}/Camera.cpp)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 

@@ -26,11 +26,19 @@ int main(){
     vector<Point2f> firstPoints, secondPoints;
     convertFloatVectorToTwoPoint2f(data, firstPoints, secondPoints);
     printVector(firstPoints);
-     cout << firstPoints.size() << " second " << secondPoints.size() << " original " << data.size();
+     cout << firstPoints.size() << " second " << secondPoints.size() << " original " << data.size() << endl;
 
     Mat homography = findHomography(firstPoints, secondPoints, CV_RANSAC, 5, noArray(), 5000, 0.999);
     cout << "Homography: " << homography << endl;
 
+    Mat fundamental = findFundamentalMat(firstPoints, secondPoints);
+    cout << "Fundamental: " << fundamental << endl;
+
+    Mat W, U, Vt;
+    SVD::compute(fundamental, W, U, Vt);
+    cout << "W: " << W << " U: " << U << " vt: " << Vt << endl;
+
+//    Mat essential = findEssentialMat(firstPoints, secondPoints)
     return 0;
 }
 
